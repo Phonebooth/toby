@@ -13,8 +13,23 @@ Erlang.
 
 First, clone the repo and run `mix deps.get`. Then to run the application:
 
+One way to find the $NODE@HOST is to connect a console to the process:
+
+Erlang:
 ```bash
-mix run --no-halt
+/opt/dog_trainer/bin/dog_trainer remote_console
+```
+The prompt with display:
+```
+($NODE@$HOST)1>
+```
+
+```bash
+iex --sname $NODE@$HOST --erl "-setcookie $COOKIE" -S mix
+
+or
+
+iex --name $NODE@$HOST --erl "-setcookie $COOKIE" -S mix
 ```
 
 Currently, you can only see information about the local node (i.e., the one you
