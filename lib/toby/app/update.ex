@@ -13,6 +13,10 @@ defmodule Toby.App.Update do
   @escape key(:esc)
   @backspace key(:backspace2)
   @enter key(:enter)
+  @arrow_up key(:arrow_up)
+  @arrow_down key(:arrow_down)
+  @arrow_left key(:arrow_left)
+  @arrow_right key(:arrow_right)
 
   def focus_search(model) do
     put_in(model, [:search, :focused], true)
@@ -43,7 +47,7 @@ defmodule Toby.App.Update do
   end
 
   def overlay_action(%{overlay: :node_selection} = model, %{key: @enter}) do
-    %{cursor: cursor, data: %{connected_nodes: nodes}} = model.node
+    %{cursor_y: cursor, data: %{connected_nodes: nodes}} = model.node
 
     node = Enum.at(nodes, cursor.position)
     new_model = %{model | selected_node: node}
@@ -56,11 +60,11 @@ defmodule Toby.App.Update do
      ])}
   end
 
-  def overlay_action(%{overlay: :node_selection} = model, %{ch: ch}) when ch == ?j do
+  def overlay_action(%{overlay: :node_selection} = model, %{ch: ch, key: key}) when ch == ?j or key in [@arrow_down] do
     move_cursor(model, [:node, :cursor_y], :next)
   end
 
-  def overlay_action(%{overlay: :node_selection} = model, %{ch: ch}) when ch == ?k do
+  def overlay_action(%{overlay: :node_selection} = model, %{ch: ch, key: key}) when ch == ?k or key in [@arrow_up] do
     move_cursor(model, [:node, :cursor_y], :prev)
   end
 
