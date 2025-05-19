@@ -15,8 +15,6 @@ defmodule Toby.App.Update do
   @enter key(:enter)
   @arrow_up key(:arrow_up)
   @arrow_down key(:arrow_down)
-  @arrow_left key(:arrow_left)
-  @arrow_right key(:arrow_right)
 
   def focus_search(model) do
     put_in(model, [:search, :focused], true)
