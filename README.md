@@ -32,9 +32,8 @@ or
 iex --name $NODE@$HOST --erl "-setcookie $COOKIE" -S mix
 ```
 
-Currently, you can only see information about the local node (i.e., the one you
-just started), but soon you'll also be able to connect to other nodes like you
-can with the observer GUI.
+The default configuration in config.exs only discovers nodes on the same host via epmd.  Other connections should be possiblewith a different libcluster config.
+
 
 ## Building a Release
 
