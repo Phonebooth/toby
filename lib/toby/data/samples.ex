@@ -34,13 +34,18 @@ defmodule Toby.Data.Samples do
   def historical_scheduler_utilization(samples) do
     util_samples = for %{scheduler_utilization: util} <- samples, do: util
 
-    for {sample, next_sample} <- Enum.zip(util_samples, Enum.drop(util_samples, 1)) do
-      [{:total, total, _} | rest] = :scheduler.utilization(sample, next_sample)
+    case util_samples do
+	[] -> []
+	_ ->
 
-      for {:normal, id, util, _} <- rest, into: %{total: total * 100} do
-        {id, util * 100}
-      end
-    end
+	    for {sample, next_sample} <- Enum.zip(util_samples, Enum.drop(util_samples, 1)) do
+	      [{:total, total, _} | rest] = :scheduler.utilization(sample, next_sample)
+
+	      for {:normal, id, util, _} <- rest, into: %{total: total * 100} do
+		{id, util * 100}
+	      end
+	    end
+	end
   end
 
   def historical_allocation(samples) do
