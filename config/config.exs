@@ -25,3 +25,12 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+#
+
+#This assumes Toby is on the same host as the target VM.  Otherwise try other libcluster configs.
+config :libcluster,
+  topologies: [
+    erlang_hosts_example: [
+      strategy: Elixir.Cluster.Strategy.LocalEpmd,
+    ]
+  ]

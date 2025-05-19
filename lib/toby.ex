@@ -10,8 +10,10 @@ defmodule Toby do
       app: Toby.App,
       shutdown: {:application, :toby}
     ]
-
+    topologies = Application.fetch_env!(:libcluster, :topologies)
+    
     children = [
+      {Cluster.Supervisor, [topologies, [name: Toby.ClusterSupervisor]]},
       {Ratatouille.Runtime.Supervisor, runtime: runtime_opts},
       Toby.Data.Server
     ]
