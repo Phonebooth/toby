@@ -12,7 +12,7 @@ defmodule Toby.App.Views.MenuBar do
         text(
           color: color(:black),
           background: color(:white),
-          content: "#{node} ([N]odes)"
+          content: "#{node} ([N]odes | Process sort: [R]eds [M]emory Queue [L]en)"
         )
       end
     end

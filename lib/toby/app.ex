@@ -4,6 +4,7 @@ defmodule Toby.App do
   """
 
   @behaviour Ratatouille.App
+  require Logger
 
   alias Ratatouille.Runtime.{Command, Subscription}
 
@@ -33,19 +34,12 @@ defmodule Toby.App do
 
   @tab_keymap %{
     ?s => :system,
-    ?S => :system,
     ?o => :load,
-    ?O => :load,
     ?m => :memory,
-    ?M => :memory,
     ?a => :applications,
-    ?A => :applications,
     ?p => :processes,
-    ?P => :processes,
     ?r => :ports,
-    ?R => :ports,
     ?t => :tables,
-    ?T => :tables,
     ?? => :help,
     ?H => :help
   }
@@ -71,7 +65,8 @@ defmodule Toby.App do
         processes: %{
           data: :not_loaded,
           cursor_x: %{@init_cursor | size: 30, continuous: false},
-          cursor_y: @init_cursor
+          cursor_y: @init_cursor,
+          sort_column: :reductions
         },
         ports: %{
           data: :not_loaded,
@@ -123,6 +118,17 @@ defmodule Toby.App do
 
       {_, {:event, %{ch: ch}}} when ch in @tab_keys ->
         Update.select_tab(model, @tab_keymap[ch])
+
+      ## Process sorting:
+
+      {_, {:event, %{ch: ch}}} when ch == ?R ->
+        Update.update_sort(model, [:tabs, model.selected_tab, :sort_column], :reductions)
+      
+      {_, {:event, %{ch: ch}}} when ch == ?M ->
+        Update.update_sort(model, [:tabs, model.selected_tab, :sort_column], :memory)
+
+      {_, {:event, %{ch: ch}}} when ch == ?L ->
+        Update.update_sort(model, [:tabs, model.selected_tab, :sort_column], :message_queue_len)
 
       ## Move the active cursor:
 

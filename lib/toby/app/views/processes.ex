@@ -28,11 +28,12 @@ defmodule Toby.App.Views.Processes do
   # model in order to calculate this dynamically.
   @frame_rows 7
 
-  def render(%{filtered: processes, cursor_x: cursor_x, cursor_y: cursor_y}, window) do
+  def render(%{filtered: processes, cursor_x: cursor_x, cursor_y: cursor_y, sort_column: sort_column}, window) do
+    processes_sorted = Enum.sort_by(processes, fn(r) -> r[sort_column] end, &>=/2)
     processes_slice =
-      Selection.slice(processes, window.height - @frame_rows, cursor_y.position)
+      Selection.slice(processes_sorted, window.height - @frame_rows, cursor_y.position)
 
-    selected = Enum.at(processes, cursor_y.position)
+    selected = Enum.at(processes_sorted, cursor_y.position)
 
     row do
       column(size: 8) do

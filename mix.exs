@@ -4,8 +4,8 @@ defmodule Toby.Mixfile do
   def project do
     [
       app: :toby,
-      version: "0.1.0",
-      elixir: "~> 1.5",
+      version: "0.2.0",
+      elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases()
@@ -16,7 +16,7 @@ defmodule Toby.Mixfile do
   def application do
     [
       mod: {Toby, []},
-      extra_applications: [:logger]
+      extra_applications: [:logger],
     ]
   end
 
@@ -26,7 +26,7 @@ defmodule Toby.Mixfile do
       {:ratatouille, "~> 0.5"},
       {:distillery, "~> 2.0", runtime: false},
       {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:libcluster, "~> 3.5.0"}
+      {:libcluster, "~> 3.5.0"},
     ]
   end
 

@@ -7,13 +7,13 @@ defmodule Toby.App.Views.StatusBar do
   import Ratatouille.Constants, only: [attribute: 1]
 
   @tabs [
-    {:system, "[S]ystem"},
+    {:system, "[s]ystem"},
     {:load, "L[o]ad Charts"},
-    {:memory, "[M]emory Allocators"},
-    {:applications, "[A]pplications"},
-    {:processes, "[P]rocesses"},
+    {:memory, "[m]emory Allocators"},
+    {:applications, "[a]pplications"},
+    {:processes, "[p]rocesses"},
     {:ports, "Po[r]ts"},
-    {:tables, "[T]ables"},
+    {:tables, "[t]ables"},
     {:help, "[?]"}
   ]
 
