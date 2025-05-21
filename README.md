@@ -12,26 +12,42 @@ Erlang.
 
 First, clone the repo and run `mix deps.get`. Then to run the application:
 
-One way to find the $NODE@HOST is to connect a console to the process:
-
-Erlang:
+To find the cookie of a running beam application:
 ```bash
-/opt/dog_trainer/bin/dog_trainer remote_console
+COOKIE=$(ps -ef | grep $APP_NAME | grep beam | awk -F"setcookie " '{print $2}' | awk '{print $1}')
 ```
-The prompt with display:
-```
-($NODE@$HOST)1>
+
+Use the short name of the host:
+```bash
+HOST=$(hostname -s)
 ```
 
 ```bash
-iex --sname $NODE@$HOST --erl "-setcookie $COOKIE" -S mix
-
-or
-
-iex --name $NODE@$HOST --erl "-setcookie $COOKIE" -S mix
+iex --sname toby@$HOST --erl "-setcookie $COOKIE" -S mix
 ```
 
-The default configuration in config.exs only discovers nodes on the same host via epmd.  Other connections should be possiblewith a different libcluster config.
+The default configuration in config.exs only discovers nodes on the same host via epmd.  Other connections should be possible with a different libcluster config.
+
+## Building native ex_termbox
+
+Compile ex_termbox on the OS you intend to deploy to:
+```bash
+git clone --recursive git@github.com:ndreynolds/ex_termbox.git
+cd ex_termbox
+mix deps.get
+mix compile
+```
+
+Copy localy compiled ex_termbox to deps:
+```bash
+rm toby/deps/ex_termbox
+cp -r ex_termbox toby/deps/
+```
+
+Make mix happy again:
+```bash
+mix deps.get
+```
 
 ## Building a Release
 
