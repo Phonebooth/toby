@@ -1,7 +1,6 @@
 # Toby
 
-A WIP terminal-based observer for the Erlang VM. Just an early prototype here
-so far.
+A basic terminal-based observer for the Erlang VM.  At a minimally viable stage now.
 
 It's being developed in parallel with [ex_termbox][1] and [Ratatouille][2],
 which respectively provide termbox bindings and a terminal UI kit for Elixir /
@@ -20,8 +19,18 @@ iex --sname toby --erl "-setcookie $COOKIE" -S mix
 
 The default configuration in config.exs only discovers nodes on the same host via epmd.  Other connections should be possiblewith a different libcluster config.
 
-
 ## Building a Release
+
+```bash
+mix release
+```
+
+
+```bash
+RELEASE_COOKIE=$COOKIE _build/dev/rel/toby/bin/toby start
+```
+
+## Building a Self-Executable Release
 
 It's also possible to create a distributable, self-contained executable via
 Distillery. I'd like to provide these for download in the future, but for now
@@ -77,10 +86,10 @@ segfault in the observer node, it should not affect the node(s) being observed.
 
 ## Roadmap
 
-* [ ] Implement views from observer on a basic level:
+* [x] Implement views from observer on a basic level:
   * [x] System
   * [x] Load Charts
-  * [ ] Memory Allocators
+  * [x] Memory Allocators
   * [x] Applications
   * [x] Processes
   * [x] Ports
@@ -90,6 +99,9 @@ segfault in the observer node, it should not affect the node(s) being observed.
   * [x] Via the application UI
   * [ ] Via the CLI
 * [ ] Actions on applications, ports, processes and tables.
+* [ ] Sorting
+  * [x] Processes
+  * [ ] Tables
 * [ ] Tracing integration
 
 [1]: https://github.com/ndreynolds/ex_termbox
