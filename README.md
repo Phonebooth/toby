@@ -13,23 +13,9 @@ Erlang.
 
 First, clone the repo and run `mix deps.get`. Then to run the application:
 
-One way to find the $NODE@HOST is to connect a console to the process:
-
-Erlang:
 ```bash
-/opt/dog_trainer/bin/dog_trainer remote_console
-```
-The prompt with display:
-```
-($NODE@$HOST)1>
-```
-
-```bash
-iex --sname $NODE@$HOST --erl "-setcookie $COOKIE" -S mix
-
-or
-
-iex --name $NODE@$HOST --erl "-setcookie $COOKIE" -S mix
+COOKIE=$(ps -ef | grep $NAME_OF_APP_TO_BE_MONITORED | grep beam | awk -F"setcookie " '{print $2}' | awk '{print $1}')
+iex --sname toby --erl "-setcookie $COOKIE" -S mix
 ```
 
 The default configuration in config.exs only discovers nodes on the same host via epmd.  Other connections should be possiblewith a different libcluster config.

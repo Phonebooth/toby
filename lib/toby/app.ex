@@ -47,6 +47,14 @@ defmodule Toby.App do
 
   @init_cursor %{position: 0, size: 0, continuous: true}
 
+  #until I figure out why logger crashes
+  def filewriter(filename, data) do
+	  File.open(filename, [:append]) 
+	  |> elem(1) 
+	  |> IO.binwrite(data)
+          |> IO.binwrite("\n") 
+  end
+
   @impl true
   def init(%{window: window}) do
     model = %{
@@ -121,13 +129,13 @@ defmodule Toby.App do
 
       ## Process sorting:
 
-      {_, {:event, %{ch: ch}}} when ch == ?R ->
+      {%{selected_tab: :processes}, {:event, %{ch: ch}}} when ch == ?R ->
         Update.update_sort(model, [:tabs, model.selected_tab, :sort_column], :reductions)
       
-      {_, {:event, %{ch: ch}}} when ch == ?M ->
+      {%{selected_tab: :processes}, {:event, %{ch: ch}}} when ch == ?M ->
         Update.update_sort(model, [:tabs, model.selected_tab, :sort_column], :memory)
 
-      {_, {:event, %{ch: ch}}} when ch == ?L ->
+      {%{selected_tab: :processes}, {:event, %{ch: ch}}} when ch == ?L ->
         Update.update_sort(model, [:tabs, model.selected_tab, :sort_column], :message_queue_len)
 
       ## Move the active cursor:
