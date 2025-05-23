@@ -4,7 +4,7 @@ defmodule Toby.App.Views.StatusBar do
   """
 
   import Ratatouille.View
-  import Ratatouille.Constants, only: [attribute: 1]
+  import Ratatouille.Constants, only: [attribute: 1, color: 1]
 
   @tabs [
     {:system, "[s]ystem"},
@@ -18,7 +18,9 @@ defmodule Toby.App.Views.StatusBar do
   ]
 
   @style_selected [
-    attributes: [attribute(:bold)]
+    attributes: [attribute(:bold)],
+    color: color(:black),
+    background: color(:white)
   ]
 
   def render(selected_tab, search) do

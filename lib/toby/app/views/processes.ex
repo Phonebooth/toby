@@ -6,7 +6,7 @@ defmodule Toby.App.Views.Processes do
   import Ratatouille.Constants, only: [attribute: 1, color: 1]
   import Ratatouille.View
 
-  import Toby.Util.Formatting, only: [format_func: 1]
+  import Toby.Util.Formatting, only: [format_func: 1, left_pad: 2]
 
   alias Toby.App.Views.{Links, Monitors}
   alias Toby.Util.Selection
@@ -43,9 +43,9 @@ defmodule Toby.App.Views.Processes do
               table_row(@style_header) do
                 table_cell(content: "PID")
                 table_cell(content: "Name or Initial Func")
-                table_cell(content: "Reds")
-                table_cell(content: "Memory")
-                table_cell(content: "MsgQ")
+                table_cell(content: left_pad("Reds",6))
+                table_cell(content: left_pad("Memory",4))
+                table_cell(content: left_pad("MsgQ",6))
                 table_cell(content: "Current Function")
               end
 
@@ -53,9 +53,9 @@ defmodule Toby.App.Views.Processes do
                 table_row(if(proc == selected, do: @style_selected, else: [])) do
                   table_cell(content: inspect(proc.pid))
                   table_cell(content: name_or_initial_func(proc))
-                  table_cell(content: to_string(proc[:reductions]))
-                  table_cell(content: inspect(proc[:memory]))
-                  table_cell(content: to_string(proc[:message_queue_len]))
+                  table_cell(content: left_pad(to_string(proc[:reductions]), 10))
+                  table_cell(content: left_pad(inspect(proc[:memory]), 8))
+                  table_cell(content: left_pad(to_string(proc[:message_queue_len]), 5))
                   table_cell(content: format_func(proc[:current_function]))
                 end
               end

@@ -82,4 +82,8 @@ defmodule Toby.Util.Formatting do
   def format_func(_) do
     "(No function)"
   end
+
+  def left_pad(number, pad) do
+    String.pad_leading(number, 10)
+  end
 end

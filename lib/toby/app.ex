@@ -84,7 +84,8 @@ defmodule Toby.App do
         tables: %{
           data: :not_loaded,
           cursor_x: %{@init_cursor | size: 30, continuous: false},
-          cursor_y: @init_cursor
+          cursor_y: @init_cursor,
+          sort_column: :size
         },
         help: %{data: :not_loaded}
       },
@@ -130,13 +131,21 @@ defmodule Toby.App do
       ## Process sorting:
 
       {%{selected_tab: :processes}, {:event, %{ch: ch}}} when ch == ?R ->
-        Update.update_sort(model, [:tabs, model.selected_tab, :sort_column], :reductions)
+        Update.update_sort(model, [:tabs, :processes, :sort_column], :reductions)
       
       {%{selected_tab: :processes}, {:event, %{ch: ch}}} when ch == ?M ->
-        Update.update_sort(model, [:tabs, model.selected_tab, :sort_column], :memory)
+        Update.update_sort(model, [:tabs, :processes, :sort_column], :memory)
 
       {%{selected_tab: :processes}, {:event, %{ch: ch}}} when ch == ?L ->
-        Update.update_sort(model, [:tabs, model.selected_tab, :sort_column], :message_queue_len)
+        Update.update_sort(model, [:tabs, :processes, :sort_column], :message_queue_len)
+      
+      ## Tables sorting:
+
+      {%{selected_tab: :tables}, {:event, %{ch: ch}}} when ch == ?S ->
+        Update.update_sort(model, [:tabs, :tables, :sort_column], :size)
+      
+      {%{selected_tab: :tables}, {:event, %{ch: ch}}} when ch == ?M ->
+        Update.update_sort(model, [:tabs, :tables, :sort_column], :memory)
 
       ## Move the active cursor:
 
@@ -183,7 +192,7 @@ defmodule Toby.App do
 
   @impl true
   def render(model) do
-    menu_bar = MenuBar.render(model.selected_node)
+    menu_bar = MenuBar.render(model.selected_node, model.selected_tab, model.window.width)
     status_bar = StatusBar.render(model.selected_tab, model.search)
     tab_loaded? = model.tabs[model.selected_tab].data != :not_loaded
 

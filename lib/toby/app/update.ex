@@ -74,10 +74,10 @@ defmodule Toby.App.Update do
     model
   end
 
-  def update_sort(model, [:tabs, :processes, :sort_column], sort_by) do
+  def update_sort(model, model_selector, sort_by) do
     new_model =
       model
-      |> put_in([:tabs, :processes, :sort_column], sort_by)
+      |> put_in(model_selector, sort_by)
 
     {new_model, request_refresh(new_model, new_model.selected_tab)}
   end
